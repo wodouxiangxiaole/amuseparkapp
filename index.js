@@ -1,4 +1,8 @@
-const express = require('express')
+const { table } = require('console');
+const { name } = require('ejs');
+const express = require('express');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
 const path = require('path')
 var cors = require('cors') // cross-origin resource sharing
 const PORT = process.env.PORT || 5000
@@ -22,7 +26,8 @@ app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
       // }
   
     // for local host
-    connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'  
+    connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
+    // connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
   })
 
 // Get tourists' information from the database
@@ -68,3 +73,17 @@ app.post('/editTouristInfo/:touristid', async (req, res) => {
   const result = await pool.query(`SELECT * FROM tourist;`);
   res.render('pages/touristInfo', result);
 })
+
+app.get('/database', (req,res) => {
+  var getUsersQuery = `select * from area`;
+  pool.query(getUsersQuery, (error, result) => {
+    if(error)
+      res.end(error);
+    var results = {'rows':result.rows};
+    res.render('pages/db', results);
+  })
+  
+});
+
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+

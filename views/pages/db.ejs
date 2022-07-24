@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%- include ("../partials/header.ejs") %>
+  
 </head>
 
 <body>
+  <h1>
+    Hello World
+  </h1>
+  
+  <% rows.forEach(function(r) { %>
 
-<%- include ("../partials/nav.ejs") %>
+  <table border="1" id="tb" style="position: relative; left: 40px;">
+      <tr>
+          <td width="100"> areaname </td>
+          <td width="100"> <%= r.areaname %> </td>
+      </tr>
+      <tr>
+          <td> areanumber </td>
+          <td> <%= r.areanumber %> </td>
+      </tr>
+  </table>
 
-<div class="container">
-<h2>Database Results</h2>
+  <% }); %>
 
-<ul>
-    <% results.forEach(function(r) { %>
-        <li><%= r.id %> - <%= r.name %></li>
-    <% }); %>
-</ul>
-
-</div>
+  
 
 </body>
 </html>
