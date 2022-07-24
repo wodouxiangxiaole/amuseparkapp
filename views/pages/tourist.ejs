@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<style>
+  body {
+  margin: 0;
+  background-color: rgb(255, 255, 255);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: rgb(0, 0, 0);  
+}
+
+  table {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td, th {
+      border: 1px solid  #b8b8b8;
+      background-color: #ffffff;
+      font-size: 15px;
+      text-align: left;
+      padding: 12px;
+  }
+
+  th {background-color: #c7cfea;}
+  [type="text"] {
+      border: 1px solid #9b9a9a;
+      border-radius: 2px;
+      width: 40px;
+      height: 25px;
+  }
+
+  .container {
+    top: 120px;
+    padding: 20px 50px;
+    position: fixed;
+  }
+  
+</style>
+<head>
+</head>
+
+<body>
+  <div>
+    <h2>Tourist Management</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Delete</th>
+      </tr>
+      
+      <% rows.forEach(function(r) { %>
+      <tr>
+        <td><a href="/touristInfo/<%=r.touristid%>"><%= r.touristid %></a></td>
+        <td><%= r.name %></td>
+        <td><%= r.age %></td>
+        <td class="button">
+          <form action="/tourist/<%=r.touristid%>" method="post">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+
+      <% }); %>
+      
+    </table> <br>
+  </div>
+</body>
+
+</html>
