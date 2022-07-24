@@ -93,6 +93,7 @@ app.get('/tourist/:touristid', async (req, res) => {
   res.render('pages/touristInfo', result);
 })
 
+
 // Edit information of exisitng tourist
 app.post('/editTouristInfo/:touristid', async (req, res) => {
   var id = req.params.touristid;
