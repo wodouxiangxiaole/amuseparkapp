@@ -82,8 +82,16 @@ app.get('/database', (req,res) => {
     var results = {'rows':result.rows};
     res.render('pages/db', results);
   })
-  
 });
 
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.get('/tourist', (req, res) => {
+  var getUsersQuery = `select touristid from tourist`;
+  pool.query(getUsersQuery, (error, result) => {
+    if(error)
+      res.end(error);
+    var results = {'rows':result.rows};
+    res.render('pages/tourist', results);
+  })
+})
 
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
