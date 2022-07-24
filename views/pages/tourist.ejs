@@ -1,100 +1,43 @@
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
-<style>
-  body {
-  margin: 0;
-  background-color: rgb(255, 255, 255);
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  color: rgb(0, 0, 0);  
-}
-
-  table {
-    font-family:Georgia, 'Times New Roman', Times, serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  td, th {
-      border: 1px solid  #b8b8b8;
-      background-color: #ffffff;
-      font-size: 15px;
-      text-align: left;
-      padding: 12px;
-  }
-
-  th {background-color: #c7cfea;}
-  [type="text"] {
-      border: 1px solid #9b9a9a;
-      border-radius: 2px;
-      width: 40px;
-      height: 25px;
-  }
-
-  .container {
-    top: 120px;
-    padding: 20px 50px;
-    position: fixed;
-  }
-  
-</style>
 <head>
 </head>
 
 <body>
   <div>
-    <h2>Tourist Management</h2>
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Delete</th>
-      </tr>
-      
-      <% rows.forEach(function(r) { %>
-      <tr>
-        <td><a href="/touristInfo/<%=r.touristid%>"><%= r.touristid %></a></td>
-        <td><%= r.name %></td>
-        <td><%= r.age %></td>
-        <td class="button">
-          <form action="/tourist/<%=r.touristid%>" method="post">
-            <button type="submit">Delete</button>
-          </form>
-        </td>
-      </tr>
+    <h2>Tourist Information</h2>
 
+      <% results.forEach(function(r) { %>
+        
+        <form action="/editTouristInfo/<%=r.touristid%>" method = "POST">
+          <table>
+          <tr><td>ID</td>     <td><input type="text" name="id" disabled value=<%= r.touristid %>></td></tr>
+          <tr><td>Name</td>   <td><input type="text" name="name" value=<%= r.name %>></td></tr>
+          <tr><td>Age</td>    <td><input type="text" name="age" value=<%= r.age %>></td></tr>
+          <br>
+          </table>
+          <button type="submit">Update Information</button>
+        </form>
+        <form action="/allTourist" method="get">
+          <button type="submit"> View All</button>
+        </form>
+        
       <% }); %>
       
-    </table> <br>
+    </ul>
+    
   </div>
-</body>
 
-=======
-<head>
-  
-</head>
+  <h2>the entertainment every tourists go: </h2>
 
-<body>
-  <h1>
-    Hello World
-  </h1>
-  
-  <table border="1" id="tb" style="position: relative; left: 40px;">
-    <tr>
-      <td width="100"></td>touristID</td>
-    </tr>
+  <% results1.forEach(function(r1) { %>
+    <li>
+      <%= r1.facilityid %>
+      
+    </li>
 
-  <% rows.forEach(function(r) { %>
-
-      <tr>
-          <td width="100"> <%= r.touristid %> </td>
-      </tr>
-  </table>
 
   <% }); %>
 
-  
-
 </body>
->>>>>>> ab55e47 (need push)
 </html>

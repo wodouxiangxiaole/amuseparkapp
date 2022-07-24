@@ -26,9 +26,17 @@ pool = new Pool({
     // }
 
   // for local host
-  connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
-  // connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
+  // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
+  connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
 })
+
+var DivisionQueryText = 
+[
+'SELECT * FROM tourist_enter_entertainment as sx',
+'WHERE NOT EXISTS (( SELECT p.touristid FROM tourist as p )',
+'EXCEPT',
+'(SELECT sp.touristid FROM tourist_enter_entertainment as sp WHERE sp.facilityid = sx.facilityid ) )'
+].join('\n')
 
 // Get tourists' information from the database
 app.get('/', (req, res) => res.render('pages/index'));
@@ -36,12 +44,36 @@ app.get('/allTourist', async (req, res) => {
   //invoke a query that selects all row from the tourist table
   try {
     const result = await pool.query('SELECT * FROM tourist');
-    res.render('pages/tourist', result);
+  // division: tourist_enter_entertainment(facilityid, touristid) as R, tourist(touristid) as S
+  // find R(facilityid) cross product S(rouristid) as r1
+  // subtract actual R(facilityid, touristid) from r1 as r2
+  // R(touristid) - r2(touristid) is result
+    const result1 = await pool.query(
+      // 'SELECT * FROM tourist_enter_entertainment WHERE facilityid not in ( SELECT facilityid FROM (SELECT facilityid, touristid FROM tourist) as p cross join (select distinct facilityid from tourist_enter_entertainment) as SP) EXCEPT (SELECT x, y from tourist_enter_entertainment) ) As r) '
+      DivisionQueryText
+      );
+    var data = {results: result.rows, results1: result1.rows};
+    res.render('pages/tourist', data);
   }
   catch (error) {
     res.end(error);
   }
 })
+
+// app.get('/allTourist', async (req, res) => {
+//   try {
+//     const result = await pool.query(
+//       'SELECT * FROM tourist_enter_entertainment WHERE facilityid not in ( SELECT facilityid FROM (SELECT facilityid, touristid FROM tourist) as p cross join (select distinct facilityid from tourist_enter_entertainment) as SP) EXCEPT (SELECT x, y from tourist_enter_entertainment) ) As r) '
+//       );
+//     var data = {results1: result.rows};
+//     res.render('pages/tourist', data);
+//   }
+//   catch (error) {
+//     res.end(error);
+//   }
+// })
+
+
 
 // Delete tourist by touristid
 app.post('/tourist/:touristid', async (req, res) => {
@@ -83,15 +115,5 @@ app.get('/database', (req,res) => {
     res.render('pages/db', results);
   })
 });
-
-app.get('/tourist', (req, res) => {
-  var getUsersQuery = `select touristid from tourist`;
-  pool.query(getUsersQuery, (error, result) => {
-    if(error)
-      res.end(error);
-    var results = {'rows':result.rows};
-    res.render('pages/tourist', results);
-  })
-})
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
