@@ -1,8 +1,8 @@
-const { table } = require('console');
-const { name } = require('ejs');
+// const { table } = require('console');
+// const { name } = require('ejs');
 const express = require('express');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
+// const req = require('express/lib/request');
+// const res = require('express/lib/response');
 const path = require('path')
 var cors = require('cors') // cross-origin resource sharing
 const PORT = process.env.PORT || 5000
@@ -15,20 +15,20 @@ app.set('view engine', 'ejs')
 app.use(express.json({limit:'25mb'}))
 app.use(express.urlencoded({limit:'25mb', extended: true}))
 app.get('/', (req, res) => res.render('pages/index'))
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+// app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
-  const { Pool } = require("pg");
-  var pool;
-  pool = new Pool({
-      // connectionString: process.env.DATABASE_URL,
-      //  ssl:{
-      //   rejectUnauthorized: false
-      // }
-  
-    // for local host
-    connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
-    // connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
-  })
+const { Pool } = require("pg");
+var pool;
+pool = new Pool({
+    // connectionString: process.env.DATABASE_URL,
+    //  ssl:{
+    //   rejectUnauthorized: false
+    // }
+
+  // for local host
+  connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
+  // connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
+})
 
 // Get tourists' information from the database
 app.get('/', (req, res) => res.render('pages/index'));
