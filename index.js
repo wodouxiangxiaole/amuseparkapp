@@ -32,7 +32,7 @@ pool = new Pool({
 
 var DivisionQueryText = 
 [
-'SELECT * FROM tourist_enter_entertainment as sx',
+'SELECT DISTINCT facilityid FROM tourist_enter_entertainment as sx',
 'WHERE NOT EXISTS (( SELECT p.touristid FROM tourist as p )',
 'EXCEPT',
 '(SELECT sp.touristid FROM tourist_enter_entertainment as sp WHERE sp.facilityid = sx.facilityid ) )'
@@ -44,6 +44,18 @@ app.get('/allTourist', async (req, res) => {
   //invoke a query that selects all row from the tourist table
   try {
     const result = await pool.query('SELECT * FROM tourist');
+    var data = {results: result.rows};
+    res.render('pages/tourist', data);
+  }
+  catch (error) {
+    res.end(error);
+  }
+})
+
+app.get('/facility', async (req, res) => {
+  //invoke a query that selects all row from the tourist table
+  try {
+    const result = await pool.query('SELECT * FROM entertainment');
   // division: tourist_enter_entertainment(facilityid, touristid) as R, tourist(touristid) as S
   // find R(facilityid) cross product S(rouristid) as r1
   // subtract actual R(facilityid, touristid) from r1 as r2
@@ -53,12 +65,30 @@ app.get('/allTourist', async (req, res) => {
       DivisionQueryText
       );
     var data = {results: result.rows, results1: result1.rows};
-    res.render('pages/tourist', data);
+    res.render('pages/facility', data);
   }
   catch (error) {
     res.end(error);
   }
 })
+
+
+// var JoinQueryText = 
+// [
+// 'SELECT *',
+// 'FROM entertainment, tourist_enter_entertainment',
+// `WHERE entertainment.facilityid = tourist_enter_entertainment.facilityid, entertainment.facilityid = ${fid}`,
+// ].join('\n')
+app.get('/facility/:facilityid', async (req, res) => {
+  var fid = req.params.facilityid;
+  const result = await pool.query(`SELECT * FROM entertainment, tourist_enter_entertainment WHERE entertainment.facilityid = tourist_enter_entertainment.facilityid and entertainment.facilityid = ${fid}`);
+  var data = {results: result.rows};
+  res.render('pages/facilityINFO', data);
+
+})
+
+
+
 
 // app.get('/allTourist', async (req, res) => {
 //   try {
