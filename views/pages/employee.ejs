@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <h2>Sales Person</h2>
+    <table>
+      <tr>
+        <th>Employee ID</th>
+        <th>Name</th>
+        <th>Title</th>
+ 
+      </tr>
+      
+      <% results.forEach(function(r) { %>
+      <tr>
+        <td><a href="/salesperson/<%=r.employeeid%>"><%= r.employeeid %></a></td>
+        <td><%= r.name %></td>
+        <td><%= r.title %></td>
+      <% }); %>
+      </tr>
+    </table>
+
+    <h2>Techinician</h2>
+    <table>
+        <tr>
+          <th>Employee ID</th>
+          <th>Name</th>
+          <th>Title</th>
+   
+        </tr>
+        
+        <% results1.forEach(function(r1) { %>
+        <tr>
+          <td><a href="/technician/<%=r1.employeeid%>"><%= r1.employeeid %></a></td>
+          <td><%= r1.name %></td>
+          <td><%= r1.title %></td>
+        <% }); %>
+        </tr>
+      </table>
+
+  </div>
+
+  <br>
+</body>
+</html>

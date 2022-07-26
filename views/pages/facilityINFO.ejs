@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+  <div>
+    <h2>Tourist Information of Entering Entertainment</h2>
+
+      <% results.forEach(function(r) { %>
+        
+        <form action="" method = "">
+          <table>
+          <tr><td>TouristID</td> <td><%=r.touristid%></td></tr>
+          <tr><td>Date</td> <td><%=r.date%></td></tr>
+          <tr><td>time</td> <td><%=r.time%></td> </tr>
+          <br>
+          </table>
+          <button type="submit">Update Information</button>
+        </form>
+        
+      <% }); %>
+      
+    </ul>
+    
+  </div>
+
+</body>
+</html>

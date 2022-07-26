@@ -87,6 +87,44 @@ app.get('/facility/:facilityid', async (req, res) => {
 
 })
 
+app.get('/allEmployee', async(req, res) => {
+  try{
+    const result = await pool.query(`select * from employee_belongto as e join salesperson_belongto as s ON e.employeeid = s.employeeid;`);
+    const result1 = await pool.query(`select * from employee_belongto as e join technician_belongto as t ON e.employeeid = t.employeeid;`);
+    var data = {results: result.rows, results1: result1.rows};
+    res.render('pages/employee', data);
+  }
+  catch(error){
+    res.end(error);
+  }
+
+})
+
+app.get('/salesperson/:eid', async(req, res) => {
+  try{
+    var eid = req.params.eid;
+    const result = await pool.query(`select * from employee_belongto as e join salesperson_belongto as s ON e.employeeid = s.employeeid WHERE e.employeeid =${eid} `);
+    var data = {results: result.rows};
+    res.render('pages/salesperson', data);
+  }
+  catch(error){
+    res.end(error);
+  }
+})
+
+
+app.get('/technician/:eid', async(req, res) => {
+  try{
+    var eid = req.params.eid;
+    const result = await pool.query(`select * from employee_belongto as e join technician_belongto as t ON e.employeeid = t.employeeid WHERE e.employeeid = ${eid} `);
+    var data = {results: result.rows};
+    res.render('pages/technician', data);
+  }
+  catch(error){
+    res.end(error);
+  }
+})
+
 
 
 
@@ -102,7 +140,6 @@ app.get('/facility/:facilityid', async (req, res) => {
 //     res.end(error);
 //   }
 // })
-
 
 
 // Delete tourist by touristid
@@ -137,14 +174,5 @@ app.post('/editTouristInfo/:touristid', async (req, res) => {
   res.render('pages/touristInfo', result);
 })
 
-app.get('/database', (req,res) => {
-  var getUsersQuery = `select * from area`;
-  pool.query(getUsersQuery, (error, result) => {
-    if(error)
-      res.end(error);
-    var results = {'rows':result.rows};
-    res.render('pages/db', results);
-  })
-});
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));

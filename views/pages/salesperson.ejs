@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+  <div>
+    <h2>Employee Information</h2>
+
+      <% results.forEach(function(r) { %>
+        
+        <form action="" method = "">
+          <table>
+          <tr><td>EmployeeID</td> <td><%=r.employeeid%></td></tr>
+          <tr><td>Name</td> <td><%=r.name%></td></tr>
+          <tr><td>Phone Number</td> <td><%=r.phonenumber%></td> </tr>
+          <tr><td>Sales</td> <td><%=r.sales%></td> </tr>
+          <br>
+          </table>
+          <button type="submit">Update Information</button>
+        </form>
+        
+      <% }); %>
+      
+    </ul>
+    
+  </div>
+
+</body>
+</html>

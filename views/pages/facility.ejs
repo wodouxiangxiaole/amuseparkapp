@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <h2>Entertainment Facility Management</h2>
+    <table>
+      <tr>
+        <th>Facility ID</th>
+        <th>Name</th>
+        <th>Location</th>
+ 
+      </tr>
+      
+      <% results.forEach(function(r) { %>
+      <tr>
+        <td><a href="/facility/<%=r.facilityid%>"><%= r.facilityid %></a></td>
+        <td><%= r.name %></td>
+        <td><%= r.location %></td>
+      <% }); %>
+      </tr>
+    </table>
+  </div>
+
+  <h3>the entertainment every tourists go: </h3>
+  <% results1.forEach(function(r1) { %>
+    <li>
+      <%= r1.facilityid %>
+    </li>
+  <% }); %>
+  <br>
+</body>
+</html>
