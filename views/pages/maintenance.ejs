@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maintenance Management</title>
+</head>
+
+<body>
+
+    <h1>Maintenance</h1>
+
+    <br><br>
+    <table>
+        <h3>Entertainments</h3>
+      <tr>
+        <th>MaintenanceID</th>
+        <th>EmployeeID</th>
+        <th>FacilityID</th>
+        <th>Time</th>
+        <th>Date</th>
+      </tr>
+      
+      <% Entertainment.forEach(function(r) { %>
+        
+        
+      <tr>
+        <td><%= r.maintenanceid %></td>      
+        <td><a href="/technician/<%=r.employeeid%>"><%= r.employeeid %></a></td>
+        <td> <%= r.facilityid%> </td>
+        <td><%= r.time %></td>
+        <td> <%= r.date%> </td>
+      <% }); %>
+   </tr>
+    </table>
+    <br><br>
+    <table>
+        <h3>Other Buildings</h3>
+        <tr>
+          <th>MaintenanceID</th>
+          <th>EmployeeID</th>
+          <th>FacilityID</th>
+          <th>Time</th>
+          <th>Date</th>
+        </tr>
+        
+        <% Others.forEach(function(r) { %>
+          
+          
+        <tr>
+          <td><%= r.maintenanceid %></td>
+          <td><a href="/technician/<%=r.employeeid%>"><%= r.employeeid %></a></td>
+          <td> <%= r.facilityid%> </td>
+          <td><%= r.time %></td>
+          <td> <%= r.date%> </td>
+        <% }); %>
+    </tr>
+</table>
+<br><br>
+<form action="/maintenance/add" method="post">
+    <table>
+        <h3>Adding New Maintenance</h3>
+        <tr>         
+          <th>MaintenanceID</th> 
+          <th>EmployeeID</th>
+          <th>FacilityID</th>  
+          <th>Time</th>
+          <th>Date</th>
+        </tr>
+       <tr>
+            <select name="btype">
+            <option value="e">Entertainments</option>
+            <option value="o">Other Buildings</option>
+            </select>
+        <td><input type="numeric" name="mid" ></td>
+        <td><input type="numeric" name="eid" ></td>
+        <td> <input type="numeric" name="fid" > </td>
+        <td><input type="time" name="time" ></td>
+        <td><input type="date" name="date" > </td>
+        </tr>
+    </table>
+    <button type="submit">Add new maintenance</button>
+</form>
+<br><br>
+
+<% if(message.length>0){%>
+<%= message%>
+<%}%>
+</body>
+</html>

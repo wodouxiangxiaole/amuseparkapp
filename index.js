@@ -7,6 +7,9 @@ const path = require('path')
 var cors = require('cors') // cross-origin resource sharing
 const PORT = process.env.PORT || 5000
 
+var session = require('express-session');
+var flush = require('connect-flash');
+
 var app = express()
 app.use("/", cors())
 app.use(express.static(path.join(__dirname, 'public')))
@@ -15,6 +18,13 @@ app.set('view engine', 'ejs')
 app.use(express.json({limit:'25mb'}))
 app.use(express.urlencoded({limit:'25mb', extended: true}))
 app.get('/', (req, res) => res.render('pages/index'))
+app.use(session({
+  secret:'secret',
+  cookie: {maxAge:60000},
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(flush());
 // app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 const { Pool } = require("pg");
@@ -27,7 +37,8 @@ pool = new Pool({
 
   // for local host
   // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
-  connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
+  // connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
+  connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
 
 var DivisionQueryText = 
@@ -174,5 +185,81 @@ app.post('/editTouristInfo/:touristid', async (req, res) => {
   res.render('pages/touristInfo', result);
 })
 
+// Maintenance Management
+
+app.get('/maintenance', async (req, res) => {
+  try {
+    //const result = await pool.query('SELECT * FROM maintenance;');
+    const result = await pool.query('select * from maintenance as a join Tech_Maintain_Entertainment as b ON a.maintenanceid = b.maintenanceid;');
+    const result2 = await pool.query('select * from maintenance as a join tech_maintain_otherbuilding as b ON a.maintenanceid = b.maintenanceid;');
+    var i = 0;
+    while(result.rows[i] !== undefined){
+      result.rows[i].date = String(result.rows[i].date).slice(0,16);
+      i++;
+    }
+    i = 0;
+    while(result2.rows[i] !== undefined){
+      result2.rows[i].date = String(result2.rows[i].date).slice(0,16);
+      i++;
+    }
+    var data = {Entertainment: result.rows, Others: result2.rows, message:req.flash('message')};
+    res.render('pages/maintenance', data);
+  }
+  catch (error) {
+    res.end(error);
+  }
+})
+
+app.post('/maintenance/add', async (req, res) => {
+  
+  var mid = req.body.mid;
+  var eid = req.body.eid;
+  var fid = req.body.fid;
+  var time = req.body.time;
+  var date = req.body.date;
+  var btype = req.body.btype;
+  
+  try {
+    await pool.query(`insert into maintenance values (${mid},'${time}','${date}');`);
+    res.redirect(`/maintenance/:${mid}/:${eid}/:${fid}/:${time}/:${date}/:${btype}`);
+  }
+  catch (error) {
+    //console.log(error);
+    //console.log(mid,eid,fid,time,date,btype);
+    
+    req.flash('message','Make sure to enter the right MaintenanceID, time, and date!');
+    //console.log(error); 
+    res.redirect('/maintenance');
+  }
+  
+})
+
+app.get('/maintenance/:mid/:eid/:fid/:time/:date/:btype', async (req, res) => {
+  try {   
+   var mid = req.params.mid.substring(1);
+   var eid = req.params.eid.substring(1);
+   var fid = req.params.fid.substring(1);
+   var time = req.params.time.substring(1);
+   var date = req.params.date.substring(1);
+   var btype = req.params.btype.substring(1);
+   console.log(mid,eid,fid,time,date,btype);
+   console.log(btype=='e');
+   console.log(btype=='o');
+     if(btype=='e'){
+       await pool.query(`insert into tech_maintain_entertainment values ('${eid}','${mid}','${fid}');`);
+     }
+     else if(btype=='o'){
+       await pool.query(`insert into tech_maintain_otherbuilding values ('${eid}','${mid}','${fid}');`);
+     }
+    req.flash('message','Maintenance added successfully');  
+   }
+  catch (error) {
+    await pool.query(`delete from maintenance where maintenanceid = '${mid}';`);
+    req.flash('message','Make sure to enter the correct EmployeeID, and FacilityID!');
+    //console.log(error);    
+  }
+  
+  res.redirect('/maintenance');
+})
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
