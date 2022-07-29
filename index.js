@@ -172,7 +172,6 @@ app.post('/tourist/:touristid', async (req, res) => {
   res.render('pages/tourist', result);
 })
 
-
 // Display tourist information
 app.get('/tourist/:touristid', async (req, res) => {
   var id = req.params.touristid;
@@ -188,9 +187,9 @@ app.post('/editTouristInfo/:touristid', async (req, res) => {
   var name = req.body.name;
   var age = req.body.age;
   // Update the database using touristid
-  await pool.query(`UPDATE tourist SET name = '${name}', age = '${age}' WHERE touristid = '${id}';`)
-  // Display current database
-  const result = await pool.query(`SELECT * FROM tourist;`);
+  await pool.query(`ALTER tourist SET name = '${name}', age = '${age}' WHERE touristid = '${id}';`)
+  // Display current databas
+  const result = await pool.query(`SELECT * FROM tourist WHERE touristid = '${id}';`);
   res.render('pages/touristInfo', result);
 })
 
