@@ -54,7 +54,7 @@ app.get('/', (req, res) => res.render('pages/index'));
 app.get('/allTourist', async (req, res) => {
   //invoke a query that selects all row from the tourist table
   try {
-    const result = await pool.query('SELECT * FROM tourist');
+    const result = await pool.query('SELECT * FROM tourist ORDER BY touristID');
     // var data = {results: result.rows};
     res.render('pages/tourist', result);
   }
