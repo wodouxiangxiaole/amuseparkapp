@@ -36,9 +36,9 @@ pool = new Pool({
     // }
 
   // for local host
-  // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
+  connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
   // connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
-  connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
+  // connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
 
 var DivisionQueryText = 
@@ -55,8 +55,8 @@ app.get('/allTourist', async (req, res) => {
   //invoke a query that selects all row from the tourist table
   try {
     const result = await pool.query('SELECT * FROM tourist');
-    var data = {results: result.rows};
-    res.render('pages/tourist', data);
+    // var data = {results: result.rows};
+    res.render('pages/tourist', result);
   }
   catch (error) {
     res.end(error);
@@ -152,6 +152,15 @@ app.get('/technician/:eid', async(req, res) => {
 //   }
 // })
 
+// Add a tourist
+app.post('/addTourist', async (req, res) => {
+  var id = req.body.id;
+  var name = req.body.name;
+  var age = req.body.age;
+  await pool.query(`INSERT INTO tourist VALUES (${id},'${name}','${age}');`);
+  const result = await pool.query("SELECT * FROM tourist"); 
+  res.render('pages/tourist', result);
+})
 
 // Delete tourist by touristid
 app.post('/tourist/:touristid', async (req, res) => {
@@ -160,8 +169,9 @@ app.post('/tourist/:touristid', async (req, res) => {
   await pool.query(`DELETE FROM tourist WHERE touristid= '${TID}';`);
   //display current database
   const result = await pool.query("SELECT * FROM tourist");
-  res.render('pages/tourist', result.rows);
+  res.render('pages/tourist', result);
 })
+
 
 // Display tourist information
 app.get('/tourist/:touristid', async (req, res) => {
@@ -170,7 +180,6 @@ app.get('/tourist/:touristid', async (req, res) => {
   const result = await pool.query(`SELECT * FROM tourist WHERE touristid = '${id}';`);
   res.render('pages/touristInfo', result);
 })
-
 
 // Edit information of exisitng tourist
 app.post('/editTouristInfo/:touristid', async (req, res) => {
@@ -263,3 +272,4 @@ app.get('/maintenance/:mid/:eid/:fid/:time/:date/:btype', async (req, res) => {
 })
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
