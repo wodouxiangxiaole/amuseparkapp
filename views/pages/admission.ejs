@@ -12,8 +12,8 @@
         <th>Price</th>
         <th>PurchaseDate</th>
         <th>PurchaseBy</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <!-- <th>Edit</th>
+        <th>Delete</th> -->
       </tr>
       <% rows.forEach(function(r) { %>
       <tr>
@@ -22,7 +22,7 @@
         <td><%= r.price %></td>
         <td><%= r.purchasedate %></td>
         <td><%= r.touristid %></td>
-        <td class="button">
+        <!-- <td class="button">
           <form action="/tourist/<%=r.touristid%>" method="post">
             <button type="submit">Edit</button>
           </form>
@@ -31,7 +31,7 @@
           <form action="/tourist/<%=r.touristid%>" method="post">
             <button type="submit">Delete</button>
           </form>
-        </td>
+        </td> -->
       <% }); %>
     </table>
   </div>
