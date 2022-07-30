@@ -4,6 +4,25 @@
 </head>
 
 <body>
+<div>
+  <h2>Entertainment: <%=facilityinfos[0].facilityid %></h2>
+  <table style="border:1px solid black;border-collapse: collapse;">
+    <tr style="border:1px solid black;"><th style="border:1px solid black;">Facility</th> <th style="border:1px solid black;">Capacity</th><th style="border:1px solid black;">Size</th><th style="border:1px solid black;">Area</th> <th style="border:1px solid black;">Category</th> <th style="border:1px solid black;">Location</th> </tr>
+    <% facilityinfos.forEach(function(r) { %>
+      <tr style="border:1px solid black;"><td style="border:1px solid black;"><%=r.name%></td><td style="border:1px solid black;"><%=r.capacity%></td><td style="border:1px solid black;"><%=r.size%></td> <td style="border:1px solid black;"><%=r.areaname%></td> <td style="border:1px solid black;"><%=r.category%></td> <td style="border:1px solid black;"><%=r.location%></td></tr>
+      <% }); %>
+  </table>
+  <br><br>
+  <h2>Total number of vistors: <%=totalvisits[0].count%></h2>
+  
+  <h2>Total number of maintenance: <%=totalmaintens[0].count%></h2>
+  
+</div>
+
+
+
+<br><br><br>
+
   <div>
     <h2>Tourist Information of Entering Entertainment</h2>
 
@@ -16,7 +35,6 @@
           <tr><td>time</td> <td><%=r.time%></td> </tr>
           <br>
           </table>
-          <button type="submit">Update Information</button>
         </form>
         
       <% }); %>

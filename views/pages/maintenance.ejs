@@ -25,7 +25,7 @@
       <tr>
         <td><%= r.maintenanceid %></td>      
         <td><a href="/technician/<%=r.employeeid%>"><%= r.employeeid %></a></td>
-        <td> <%= r.facilityid%> </td>
+        <td> <a href="/facility/<%=r.facilityid%>"><%= r.facilityid%></a> </td>
         <td><%= r.time %></td>
         <td> <%= r.date%> </td>
       <% }); %>
@@ -48,7 +48,7 @@
         <tr>
           <td><%= r.maintenanceid %></td>
           <td><a href="/technician/<%=r.employeeid%>"><%= r.employeeid %></a></td>
-          <td> <%= r.facilityid%> </td>
+          <td><%= r.facilityid%> </td>
           <td><%= r.time %></td>
           <td> <%= r.date%> </td>
         <% }); %>

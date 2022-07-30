@@ -129,8 +129,11 @@ app.get('/facility', async (req, res) => {
 // ].join('\n')
 app.get('/facility/:facilityid', async (req, res) => {
   var fid = req.params.facilityid;
+  const  facilityinfo=await pool.query(`SELECT * FROM entertainment WHERE facilityid = ${fid}`);
   const result = await pool.query(`SELECT * FROM entertainment, tourist_enter_entertainment WHERE entertainment.facilityid = tourist_enter_entertainment.facilityid and entertainment.facilityid = ${fid}`);
-  var data = {results: result.rows};
+  const totalvisit = await pool.query(`select count(a) from (SELECT * FROM entertainment, tourist_enter_entertainment WHERE entertainment.facilityid = tourist_enter_entertainment.facilityid and entertainment.facilityid = ${fid}) as a`);
+  const totalmainten = await pool.query(`select count(maintenanceid) from tech_maintain_entertainment group by facilityid having facilityid = ${fid}`);
+  var data = {results: result.rows, facilityinfos:facilityinfo.rows, totalvisits:totalvisit.rows, totalmaintens:totalmainten.rows};
   res.render('pages/facilityINFO', data);
 
 })
