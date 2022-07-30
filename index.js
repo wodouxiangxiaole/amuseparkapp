@@ -36,9 +36,9 @@ pool = new Pool({
     // }
 
   // for local host
-  // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
+  connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
   //connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
-   connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
+  //  connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
 
 var DivisionQueryText = 
@@ -307,6 +307,27 @@ app.get('/maintenance/:mid/:eid/:fid/:time/:date/:btype', async (req, res) => {
   
   res.redirect('/maintenance');
 })
+
+app.get('/allTickets', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM TicketPrice, TicketSales WHERE TicketPrice.Type = TicketSales.Type ORDER BY TicketID');
+    res.render('pages/admission', result);
+  }
+  catch (error) {
+    res.end(error);
+  }
+})
+
+app.get('/ticketType', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM TicketPrice ORDER BY Type');
+    res.render('pages/ticketprice', result);
+  }
+  catch (error) {
+    res.end(error);
+  }
+})
+
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 

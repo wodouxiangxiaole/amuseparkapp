@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <h2>Admission Control</h2>
+    <table>
+      <tr>
+        <th>TicketID</th>
+        <th><a href="/ticketType">Type</a></th>
+        <th>Price</th>
+        <th>PurchaseDate</th>
+        <th>PurchaseBy</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      <% rows.forEach(function(r) { %>
+      <tr>
+        <td><%= r.ticketid %></a></td>
+        <td><%= r.type %></td>
+        <td><%= r.price %></td>
+        <td><%= r.purchasedate %></td>
+        <td><%= r.touristid %></td>
+        <td class="button">
+          <form action="/tourist/<%=r.touristid%>" method="post">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td class="button">
+          <form action="/tourist/<%=r.touristid%>" method="post">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      <% }); %>
+    </table>
+  </div>
+</body>
+</html>
