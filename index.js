@@ -83,7 +83,7 @@ var DivisionQueryText =
 app.get('/facility', async (req, res) => {
   //invoke a query that selects all row from the tourist table
   try {
-    const result = await pool.query('SELECT * FROM entertainment order b');
+    const result = await pool.query('SELECT * FROM entertainment');
   // division: tourist_enter_entertainment(facilityid, touristid) as R, tourist(touristid) as S
   // find R(facilityid) cross product S(rouristid) as r1
   // subtract actual R(facilityid, touristid) from r1 as r2
@@ -92,7 +92,7 @@ app.get('/facility', async (req, res) => {
       // 'SELECT * FROM tourist_enter_entertainment WHERE facilityid not in ( SELECT facilityid FROM (SELECT facilityid, touristid FROM tourist) as p cross join (select distinct facilityid from tourist_enter_entertainment) as SP) EXCEPT (SELECT x, y from tourist_enter_entertainment) ) As r) '
       DivisionQueryText
       );
-      const result2 = await pool.query('select * from entertainment where facilityid in (select facilityid from tourist_enter_entertainment group by facilityid having count(facilityid)< (select avg(count) from (select count(*) from tourist_enter_entertainment group by facilityid) as a));  ');
+      const result2 = await pool.query('select * from entertainment where facilityid in (select facilityid from tourist_enter_entertainment group by facilityid having count(facilityid)< (select avg(count) from (select count(*) from tourist_enter_entertainment group by facilityid) as a))');
     var data = {results: result.rows, results1: result1.rows, results2: result2.rows};
     res.render('pages/facility', data);
   }
