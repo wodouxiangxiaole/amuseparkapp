@@ -36,8 +36,8 @@ pool = new Pool({
     // }
 
   // for local host
-  connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
-  // connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
+  // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
+  connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
   // connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
 
@@ -63,10 +63,27 @@ app.get('/allTourist', async (req, res) => {
   }
 })
 
+var DivisionQueryText = 
+[
+'SELECT DISTINCT facilityid FROM tourist_enter_entertainment as sx',
+'WHERE NOT EXISTS (( SELECT p.touristid FROM tourist as p )',
+'EXCEPT',
+'(SELECT sp.touristid FROM tourist_enter_entertainment as sp WHERE sp.facilityid = sx.facilityid ) )'
+].join('\n')
+
+
+
+// var query = [
+//   'select * from entertainment',
+//   'WHERE facilityid IN',
+//             '(SELECT facilityid FROM tourist_enter_entertainment',
+//             'GROUP BY facilityid',
+//             'HAVING COUNT(*) < 3)'
+// ].join('\n')
 app.get('/facility', async (req, res) => {
   //invoke a query that selects all row from the tourist table
   try {
-    const result = await pool.query('SELECT * FROM entertainment');
+    const result = await pool.query('SELECT * FROM entertainment order b');
   // division: tourist_enter_entertainment(facilityid, touristid) as R, tourist(touristid) as S
   // find R(facilityid) cross product S(rouristid) as r1
   // subtract actual R(facilityid, touristid) from r1 as r2
@@ -75,13 +92,33 @@ app.get('/facility', async (req, res) => {
       // 'SELECT * FROM tourist_enter_entertainment WHERE facilityid not in ( SELECT facilityid FROM (SELECT facilityid, touristid FROM tourist) as p cross join (select distinct facilityid from tourist_enter_entertainment) as SP) EXCEPT (SELECT x, y from tourist_enter_entertainment) ) As r) '
       DivisionQueryText
       );
-    var data = {results: result.rows, results1: result1.rows};
+      const result2 = await pool.query('select * from entertainment where facilityid in (select facilityid from tourist_enter_entertainment group by facilityid having count(facilityid)< (select avg(count) from (select count(*) from tourist_enter_entertainment group by facilityid) as a));  ');
+    var data = {results: result.rows, results1: result1.rows, results2: result2.rows};
     res.render('pages/facility', data);
   }
   catch (error) {
     res.end(error);
   }
 })
+
+// app.get('/facility', async(req, res) => {
+//   try{
+//     var query = [
+//       'select * from entertainment',
+//       'WHERE facilityid IN',
+//                 'SELECT facilityid, COUNT(*) as tourist_number FROM tourist_enter_entertainment',
+//                 'GROUP BY facilityid',
+//                 'HAVING COUNT(*) < 3'
+//     ];
+//     const result2 = await pool.query(query);
+//     var data = {results2: result2.rows};
+//     res.render('pages/facility', data);
+
+//   }
+//   catch(error){
+//     res.end(error);
+//   }
+// })
 
 
 // var JoinQueryText = 
