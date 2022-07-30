@@ -7,7 +7,7 @@
   <div>
     <h2>Tourist Information</h2>
       <% rows.forEach(function(r) { %>
-        <form action="/editTouristInfo" method = "POST">
+        <form action="/editTouristInfo/<%=r.touristid%>" method = "POST">
           <table>
           <tr><td>ID</td>     <td><input type="text" name="id" disabled value=<%= r.touristid %>></td></tr>
           <tr><td>Name</td>   <td><input type="text" name="name" value=<%= r.name %>></td></tr>
@@ -16,10 +16,10 @@
           </table>
           <button type="submit">Update Information</button>
         </form>
-        <form action="/allTourist" method="get">
-          <button type="submit"> View All</button>
-        </form>
-      <% }); %>    
+      <% }); %>
+    <form action="/allTourist" method="get">
+      <button type="submit"> View All</button>
+    </form>
   </div>
 
 </body>
