@@ -37,8 +37,8 @@ pool = new Pool({
 
   // for local host
   // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
-  connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
-  // connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
+  //connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
+   connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
 
 var DivisionQueryText = 
@@ -92,7 +92,7 @@ app.get('/facility', async (req, res) => {
       // 'SELECT * FROM tourist_enter_entertainment WHERE facilityid not in ( SELECT facilityid FROM (SELECT facilityid, touristid FROM tourist) as p cross join (select distinct facilityid from tourist_enter_entertainment) as SP) EXCEPT (SELECT x, y from tourist_enter_entertainment) ) As r) '
       DivisionQueryText
       );
-      const result2 = await pool.query('select * from entertainment where facilityid in (select facilityid from tourist_enter_entertainment group by facilityid having count(facilityid)< (select avg(count) from (select count(*) from tourist_enter_entertainment group by facilityid) as a))');
+      const result2 = await pool.query('select * from entertainment where facilityid != (select facilityid from tourist_enter_entertainment group by facilityid having count(facilityid) > (select avg(count) from (select count(*) from tourist_enter_entertainment group by facilityid) as a))');
     var data = {results: result.rows, results1: result1.rows, results2: result2.rows};
     res.render('pages/facility', data);
   }
