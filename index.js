@@ -36,9 +36,9 @@ pool = new Pool({
     // }
 
   // for local host
-  connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
+  // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
   //connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
-  //  connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
+    connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
 
 var DivisionQueryText = 
@@ -55,8 +55,8 @@ app.get('/allTourist', async (req, res) => {
   //invoke a query that selects all row from the tourist table
   try {
     const result = await pool.query('SELECT * FROM tourist ORDER BY touristID');
-    // var data = {results: result.rows};
-    res.render('pages/tourist', result);
+     var data = {results: result.rows, message:req.flash('message')};
+    res.render('pages/tourist', data);
   }
   catch (error) {
     res.end(error);
@@ -194,27 +194,34 @@ app.post('/addTourist', async (req, res) => {
   var id = req.body.id;
   var name = req.body.name;
   var age = req.body.age;
-  await pool.query(`INSERT INTO tourist VALUES (${id},'${name}','${age}');`);
-  const result = await pool.query("SELECT * FROM tourist"); 
-  res.render('pages/tourist', result);
+  try{
+    await pool.query(`INSERT INTO tourist VALUES (${id},'${name}','${age}');`);
+    req.flash('message',"New tourist added successfully.");
+  }
+  catch(error){
+    req.flash('message',"Error: Make sure you enter the right id, name and age.");
+  }
+  
+  res.redirect('/allTourist');
 })
 
 // Delete tourist by touristid
-app.post('/tourist/:touristid', async (req, res) => {
+app.post('/tourist/delete/:touristid', async (req, res) => {
   var TID = req.params.touristid;
   //search the database using id
   await pool.query(`DELETE FROM tourist WHERE touristid= '${TID}';`);
-  //display current database
-  const result = await pool.query("SELECT * FROM tourist");
-  res.render('pages/tourist', result);
+  req.flash('message',"Tourist have being removed.");
+  res.redirect('/allTourist');
 })
 
 // Display tourist information
 app.get('/tourist/:touristid', async (req, res) => {
   var id = req.params.touristid;
   //search the database using id
-  const result = await pool.query(`SELECT * FROM tourist WHERE touristid = '${id}';`);
-  res.render('pages/touristInfo', result);
+  const touristinfo = await pool.query(`SELECT * FROM tourist WHERE touristid = '${id}';`);
+  const touristvisited = await pool.query(`SELECT * FROM tourist_enter_entertainment WHERE touristid = '${id}' order by facilityid,date, time ;`);
+  var data = {results: touristinfo.rows, visits:touristvisited.rows, message:req.flash('message')};
+  res.render('pages/touristInfo', data);
 })
 
 // Edit information of exisitng tourist
@@ -224,11 +231,15 @@ app.post('/editTouristInfo/:touristid', async (req, res) => {
   var name = req.body.name;
   var age = req.body.age;
   // Update the database using touristid
-  await pool.query(`UPDATE tourist SET name = '${name}', age = '${age}' WHERE touristid = '${id}';`)
-  
-  // Display current databas
-  const result = await pool.query(`SELECT * FROM tourist WHERE touristid = '${id}';`);
-  res.render('pages/touristInfo', result);
+  try{
+    await pool.query(`UPDATE tourist SET name = '${name}', age = '${age}' WHERE touristid = '${id}';`);
+    req.flash('message',"Info Updated.");
+  }
+  catch(error){
+    req.flash('message',"Error: Make sure you enter the right id, name and age.");
+  }
+
+  res.redirect(`/tourist/${id}`);
 })
 
 // Maintenance Management

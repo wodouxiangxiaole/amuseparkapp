@@ -5,6 +5,10 @@
 <body>
   <div>
     <h2>Tourist Management</h2>
+    <% if(message.length>0){%>
+      <%= message %>
+      <%}%>
+      <br><br>
     <table>
       <tr>
         <th>ID</th>
@@ -13,13 +17,13 @@
         <th>Delete</th>
       </tr>
       
-      <% rows.forEach(function(r) { %>
+      <% results.forEach(function(r) { %>
       <tr>
         <td><a href="/tourist/<%=r.touristid%>"><%= r.touristid %></a></td>
         <td><%= r.name %></td>
         <td><%= r.age %></td>
         <td class="button">
-          <form action="/tourist/<%=r.touristid%>" method="post">
+          <form action="/tourist/delete/<%=r.touristid%>" method="post">
             <button type="submit">Delete</button>
           </form>
         </td>
@@ -28,7 +32,9 @@
     </table>
   </div>
   <div>
+  
     <h2>Add a New Tourist</h2>
+    
     <form action="/addTourist" method = "POST">
       <table>
       <tr><td>ID</td><td><input type="text" name="id"></td></tr>
@@ -37,6 +43,7 @@
       <br>
       </table>
       <button type="submit">Add Tourist</button>
+ 
     </form>
   </div>
 </body>

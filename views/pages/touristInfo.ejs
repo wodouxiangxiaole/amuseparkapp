@@ -6,7 +6,10 @@
 <body>
   <div>
     <h2>Tourist Information</h2>
-      <% rows.forEach(function(r) { %>
+    <% if(message.length>0){%>
+      <%= message %>
+      <%}%>
+      <% results.forEach(function(r) { %>
         <form action="/editTouristInfo/<%=r.touristid%>" method = "POST">
           <table>
           <tr><td>ID</td>     <td><input type="text" name="id" disabled value=<%= r.touristid %>></td></tr>
@@ -18,8 +21,21 @@
         </form>
       <% }); %>
     <form action="/allTourist" method="get">
-      <button type="submit"> View All</button>
+      <button type=""> View All</button>
     </form>
+  </div>
+
+  <br><br>
+  <h3>Tour Record</h3>
+  <div>
+    
+      <table style="border:1px solid black;border-collapse: collapse;">
+        <tr style="border:1px solid black;"><th style="border:1px solid black;">Facility</th> <th style="border:1px solid black;">Time</th><th style="border:1px solid black;">Date</th> </tr>
+        <% visits.forEach(function(r) { %>
+          <tr style="border:1px solid black;"><td style="border:1px solid black;"><%=r.facilityid%></td><td style="border:1px solid black;"><%=r.time%></td><td style="border:1px solid black;"><%=r.date%></td></tr>
+          <% }); %>
+      </table>
+    
   </div>
 
 </body>
