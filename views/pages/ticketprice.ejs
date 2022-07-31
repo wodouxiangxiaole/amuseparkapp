@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+  <div>
+    <h2>Ticket Type and Price</h2>
+    <table>
+      <tr>
+        <th>Ticket Type</th>
+        <th>Ticket Price</th>
+      </tr>
+      <% rows.forEach(function(r) { %>
+        <form action="/ticketType" method = "GET">
+          <tr>
+            <td><%= r.type %></td>
+            <td><%= r.price %></td>
+          <!-- <button type="submit">Update Information</button> -->
+        </form>
+      <% }); %>
+    </table>
+    <form action="/allTickets" method="get">
+      <button type="submit"> Back to Admission</button>
+    </form>
+  </div>
+</body>
+</html>
