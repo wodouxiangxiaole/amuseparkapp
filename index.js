@@ -37,9 +37,10 @@ pool = new Pool({
 
   // for local host
   // connectionString: 'postgres://nicoleli:12345@localhost/amuseparkdbapp'
-  //connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
-    connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
+  connectionString: 'postgres://postgres:123wzqshuai@localhost/amusepark'
+    //connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
+
 
 
 // Get tourists' information from the database
