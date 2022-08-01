@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="/stylesheets/amusepark.css">
 </head>
 <body>
-  <div>
+  <div class="container">
     <h2>Admission Control</h2>
     <table>
-      <tr>
+      <tr  class="table-header">
         <th>TicketID</th>
         <th><a href="/ticketType">Type</a></th>
         <th>Price</th>
@@ -16,7 +17,7 @@
         <th>Delete</th> -->
       </tr>
       <% rows.forEach(function(r) { %>
-      <tr>
+      <tr  class="table-row">
         <td><%= r.ticketid %></a></td>
         <td><%= r.type %></td>
         <td><%= r.price %></td>
@@ -35,5 +36,8 @@
       <% }); %>
     </table>
   </div>
+  <form action="/homepage" method="get">
+    <button class="homepage" type="submit"> Back to Home Page</button>
+  </form>
 </body>
 </html>

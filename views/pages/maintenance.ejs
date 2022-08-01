@@ -1,88 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Maintenance Management</title>
+  <link rel="stylesheet" href="/stylesheets/amusepark.css">
 </head>
-
 <body>
-
+  <div class="container">
+    <title>Maintenance Management</title>
     <h1>Maintenance</h1>
-
-    <br><br>
     <table>
-        <h3>Entertainments</h3>
-      <tr>
+      <h2>Entertainments</h3>
+      <tr class="table-header">
         <th>MaintenanceID</th>
         <th>EmployeeID</th>
         <th>FacilityID</th>
         <th>Time</th>
         <th>Date</th>
       </tr>
-      
       <% Entertainment.forEach(function(r) { %>
-        
-        
-      <tr>
+      <tr class="table-row">
         <td><%= r.maintenanceid %></td>      
         <td><a href="/technician/<%=r.employeeid%>"><%= r.employeeid %></a></td>
         <td> <a href="/facility/<%=r.facilityid%>"><%= r.facilityid%></a> </td>
         <td><%= r.time %></td>
         <td> <%= r.date%> </td>
+      </tr>
       <% }); %>
-   </tr>
     </table>
-    <br><br>
     <table>
-        <h3>Other Buildings</h3>
-        <tr>
-          <th>MaintenanceID</th>
-          <th>EmployeeID</th>
-          <th>FacilityID</th>
-          <th>Time</th>
-          <th>Date</th>
-        </tr>
-        
-        <% Others.forEach(function(r) { %>
-          
-          
-        <tr>
-          <td><%= r.maintenanceid %></td>
-          <td><a href="/technician/<%=r.employeeid%>"><%= r.employeeid %></a></td>
-          <td><%= r.facilityid%> </td>
-          <td><%= r.time %></td>
-          <td> <%= r.date%> </td>
-        <% }); %>
-    </tr>
-</table>
-<br><br>
-<form action="/maintenance/add" method="post">
-    <table>
-        <h3>Adding New Maintenance</h3>
-        <tr>         
+      <h2>Other Buildings</h3>
+      <tr class="table-header">
+        <th>MaintenanceID</th>
+        <th>EmployeeID</th>
+        <th>FacilityID</th>
+        <th>Time</th>
+        <th>Date</th>
+      </tr>
+      <% Others.forEach(function(r) { %>
+      <tr class="table-row">
+        <td><%= r.maintenanceid %></td>
+        <td><a href="/technician/<%=r.employeeid%>"><%= r.employeeid %></a></td>
+        <td><%= r.facilityid%> </td>
+        <td><%= r.time %></td>
+        <td> <%= r.date%> </td>
+      </tr>
+      <% }); %>
+    </table>
+  </div>
+  <div class="container">
+    <form action="/maintenance/add" method="post">
+      <table>
+        <h2>Adding New Maintenance</h3>
+        <tr class="table-header">         
           <th>MaintenanceID</th> 
           <th>EmployeeID</th>
           <th>FacilityID</th>  
           <th>Time</th>
           <th>Date</th>
         </tr>
-       <tr>
-            <select name="btype">
+        <tr class="table-row">
+          <select name="btype">
             <option value="e">Entertainments</option>
             <option value="o">Other Buildings</option>
-            </select>
-        <td><input type="numeric" name="mid" ></td>
-        <td><input type="numeric" name="eid" ></td>
-        <td> <input type="numeric" name="fid" > </td>
-        <td><input type="time" name="time" ></td>
-        <td><input type="date" name="date" > </td>
+          </select>
+          <td><input type="numeric" name="mid" ></td>
+          <td><input type="numeric" name="eid" ></td>
+          <td><input type="numeric" name="fid" > </td>
+          <td><input type="time" name="time" ></td>
+          <td><input type="date" name="date" > </td>
         </tr>
-    </table>
-    <button type="submit">Add new maintenance</button>
-</form>
-<br><br>
-
-<% if(message.length>0){%>
-<%= message%>
-<%}%>
+      </table>
+      <button type="submit">Add new maintenance</button>
+    </form>
+    <% if(message.length>0){%>
+    <%= message%>
+    <%}%>
+  </div>
+  <form action="/homepage" method="get">
+    <button class="homepage" type="submit"> Back to Home Page</button>
+  </form>
 </body>
 </html>

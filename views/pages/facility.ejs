@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="/stylesheets/amusepark.css">
 </head>
 <body>
-  <div>
-    <h2>Entertainment Facility Management</h2>
+  <div class="container">
+    <h2>All Facilities</h2>
     <table>
-      <tr>
+      <tr class="table-header">
         <th>Facility ID</th>
         <th>Name</th>
         <th>Location</th>
- 
       </tr>
-      
       <% results.forEach(function(r) { %>
-      <tr>
+      <tr class="table-row">
         <td><a href="/facility/<%=r.facilityid%>"><%= r.facilityid %></a></td>
         <td><%= r.name %></td>
         <td><%= r.location %></td>
@@ -22,21 +21,24 @@
       </tr>
     </table>
   </div>
-
-  <h2>Entertainment facilities that every tourist go: </h2>
-  <% results1.forEach(function(r1) { %>
-    <li>
-      <%= r1.name %>
-    </li>
-  <% }); %>
-
-
-  <h2>LEAST POPULAR ENTERTAINMENT</h2>
-  <% results2.forEach(function(r2) { %>
-    <li>
-      <%= r2.name %>
-    </li>
-  <% }); %>
-
+  <div class="container">
+    <h2>Entertainment facilities that every tourist go: </h2>
+    <% results1.forEach(function(r1) { %>
+      <li>
+        <%= r1.facilityid %>
+      </li>
+    <% }); %>
+  </div>
+  <div class="container">
+    <h2>LEAST POPULAR ENTERTAINMENT</h2>
+    <% results2.forEach(function(r2) { %>
+      <li>
+        <%= r2.name %>
+      </li>
+    <% }); %>
+  </div>
+  <form action="/homepage" method="get">
+    <button class="homepage" type="submit"> Back to Home Page</button>
+  </form>
 </body>
 </html>

@@ -325,6 +325,7 @@ app.get('/allTickets', async (req, res) => {
   }
 })
 
+
 app.get('/ticketType', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM TicketPrice ORDER BY Type');
@@ -335,6 +336,9 @@ app.get('/ticketType', async (req, res) => {
   }
 })
 
+app.get('/homepage', async (req, res) => {
+  res.render('pages/index');
+})
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 

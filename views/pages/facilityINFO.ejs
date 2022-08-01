@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="/stylesheets/amusepark.css">
 </head>
-
 <body>
-<div>
-  <h2>Entertainment: <%=facilityinfos[0].facilityid %></h2>
-  <table style="border:1px solid black;border-collapse: collapse;">
-    <tr style="border:1px solid black;"><th style="border:1px solid black;">Facility</th> <th style="border:1px solid black;">Capacity</th><th style="border:1px solid black;">Size</th><th style="border:1px solid black;">Area</th> <th style="border:1px solid black;">Category</th> <th style="border:1px solid black;">Location</th> </tr>
-    <% facilityinfos.forEach(function(r) { %>
-      <tr style="border:1px solid black;"><td style="border:1px solid black;"><%=r.name%></td><td style="border:1px solid black;"><%=r.capacity%></td><td style="border:1px solid black;"><%=r.size%></td> <td style="border:1px solid black;"><%=r.areaname%></td> <td style="border:1px solid black;"><%=r.category%></td> <td style="border:1px solid black;"><%=r.location%></td></tr>
-      <% }); %>
-  </table>
-  <br><br>
-  <h2>Total number of vistors: <%=totalvisits[0].count%></h2>
-  
-  <h2>Total number of maintenance: <%=totalmaintens[0].count%></h2>
-  
-</div>
-
-
-
-<br><br><br>
-
-  <div>
+  <div class="container">
+    <h2>Entertainment: <%=facilityinfos[0].facilityid %></h2>
+    <table>
+      <tr class="table-header">
+        <th>Facility</th>
+        <th>Capacity</th>
+        <th>Size</th>
+        <th>Area</th>
+        <th>Category</th>
+        <th>Location</th> </tr>
+      <% facilityinfos.forEach(function(r) { %>
+        <tr class="table-row">
+          <td><%=r.name%></td>
+          <td><%=r.capacity%></td>
+          <td><%=r.size%></td>
+          <td><%=r.areaname%></td>
+          <td><%=r.category%></td>
+          <td><%=r.location%></td></tr>
+        <% }); %>
+    </table>
+    <h3>Total number of vistors: <%=totalvisits[0].count%></h2>
+    <h3>Total number of maintenance: <%=totalmaintens[0].count%></h2>
+  </div>
+  <div class="container">
     <h2>Tourist Information of Entering Entertainment</h2>
-
       <% results.forEach(function(r) { %>
-        
         <form action="" method = "">
           <table>
           <tr><td>TouristID</td> <td><%=r.touristid%></td></tr>
@@ -36,12 +38,11 @@
           <br>
           </table>
         </form>
-        
       <% }); %>
-      
     </ul>
-    
-  </div>
-
+  </div>  
+  <form action="/homepage" method="get">
+    <button class="homepage" type="submit"> Back to Home Page</button>
+  </form>
 </body>
 </html>

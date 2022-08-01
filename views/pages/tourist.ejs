@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="/stylesheets/amusepark.css">
 </head>
 <body>
-  <div>
-    <h2>Tourist Management</h2>
-    <% if(message.length>0){%>
-      <%= message %>
-      <%}%>
-      <br><br>
+  <div class="container">
+    <h2>Tourist Management</h2> 
     <table>
-      <tr>
+      <tr class="table-header">
         <th>ID</th>
         <th>Name</th>
         <th>Age</th>
@@ -18,11 +15,11 @@
       </tr>
       
       <% results.forEach(function(r) { %>
-      <tr>
+      <tr class="table-row">
         <td><a href="/tourist/<%=r.touristid%>"><%= r.touristid %></a></td>
         <td><%= r.name %></td>
         <td><%= r.age %></td>
-        <td class="button">
+        <td>
           <form action="/tourist/delete/<%=r.touristid%>" method="post">
             <button type="submit">Delete</button>
           </form>
@@ -31,20 +28,26 @@
       <% }); %>
     </table>
   </div>
-  <div>
-  
+  <div class="container">
     <h2>Add a New Tourist</h2>
-    
     <form action="/addTourist" method = "POST">
       <table>
       <tr><td>ID</td><td><input type="text" name="id"></td></tr>
       <tr><td>Name</td><td><input type="text" name="name"></td></tr>
       <tr><td>Age</td><td><input type="text" name="age"></td></tr>
-      <br>
       </table>
       <button type="submit">Add Tourist</button>
- 
     </form>
+    <h4><% if(message.length>0){%>
+      <%= message %>
+      <%}%>
+    </h4>
   </div>
+  <form action="/homepage" method="get">
+    <button class="homepage" type="submit"> Back to Home Page</button>
+  </form>
+  <form action="/homepage" method="get">
+    <button class="homepage" type="submit"> Back to Home Page</button>
+  </form>
 </body>
 </html>

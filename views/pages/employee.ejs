@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="/stylesheets/amusepark.css">
 </head>
 <body>
-  <div>
+  <div class="container">
     <h2>Sales Person</h2>
     <table>
-      <tr>
+      <tr class="table-header">
         <th>Employee ID</th>
         <th>Name</th>
         <th>Title</th>
- 
       </tr>
-      
       <% results.forEach(function(r) { %>
-      <tr>
+      <tr class="table-row">
         <td><a href="/salesperson/<%=r.employeeid%>"><%= r.employeeid %></a></td>
         <td><%= r.name %></td>
         <td><%= r.title %></td>
       <% }); %>
       </tr>
-    </table>
-
+    </table>   
+  </div>
+  <div class="container">
     <h2>Techinician</h2>
     <table>
-        <tr>
-          <th>Employee ID</th>
-          <th>Name</th>
-          <th>Title</th>
-   
-        </tr>
-        
-        <% results1.forEach(function(r1) { %>
-        <tr>
-          <td><a href="/technician/<%=r1.employeeid%>"><%= r1.employeeid %></a></td>
-          <td><%= r1.name %></td>
-          <td><%= r1.title %></td>
-        <% }); %>
-        </tr>
-      </table>
-
+      <tr class="table-header">
+        <th>Employee ID</th>
+        <th>Name</th>
+        <th>Title</th>
+      </tr>
+      <% results1.forEach(function(r1) { %>
+      <tr class="table-row">
+        <td><a href="/technician/<%=r1.employeeid%>"><%= r1.employeeid %></a></td>
+        <td><%= r1.name %></td>
+        <td><%= r1.title %></td>
+      <% }); %>
+      </tr>
+    </table>
   </div>
-
-  <br>
+  <form action="/homepage" method="get">
+    <button class="homepage" type="submit"> Back to Home Page</button>
+  </form>
 </body>
 </html>
