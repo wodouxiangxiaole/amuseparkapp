@@ -41,13 +41,6 @@ pool = new Pool({
     connectionString: 'postgres://postgres:root@localhost/amuseparkdbapp'
 })
 
-var DivisionQueryText = 
-[
-'SELECT DISTINCT facilityid FROM tourist_enter_entertainment as sx',
-'WHERE NOT EXISTS (( SELECT p.touristid FROM tourist as p )',
-'EXCEPT',
-'(SELECT sp.touristid FROM tourist_enter_entertainment as sp WHERE sp.facilityid = sx.facilityid ) )'
-].join('\n')
 
 // Get tourists' information from the database
 app.get('/', (req, res) => res.render('pages/index'));
@@ -65,10 +58,11 @@ app.get('/allTourist', async (req, res) => {
 
 var DivisionQueryText = 
 [
+'SELECT * FROM entertainment WHERE facilityid IN (',
 'SELECT DISTINCT facilityid FROM tourist_enter_entertainment as sx',
 'WHERE NOT EXISTS (( SELECT p.touristid FROM tourist as p )',
 'EXCEPT',
-'(SELECT sp.touristid FROM tourist_enter_entertainment as sp WHERE sp.facilityid = sx.facilityid ) )'
+'(SELECT sp.touristid FROM tourist_enter_entertainment as sp WHERE sp.facilityid = sx.facilityid )))'
 ].join('\n')
 
 
@@ -89,8 +83,7 @@ app.get('/facility', async (req, res) => {
   // subtract actual R(facilityid, touristid) from r1 as r2
   // R(touristid) - r2(touristid) is result
     const result1 = await pool.query(
-      // 'SELECT * FROM tourist_enter_entertainment WHERE facilityid not in ( SELECT facilityid FROM (SELECT facilityid, touristid FROM tourist) as p cross join (select distinct facilityid from tourist_enter_entertainment) as SP) EXCEPT (SELECT x, y from tourist_enter_entertainment) ) As r) '
-      DivisionQueryText
+        DivisionQueryText
       );
       const result2 = await pool.query('select * from entertainment where facilityid != (select facilityid from tourist_enter_entertainment group by facilityid having count(facilityid) > (select avg(count) from (select count(*) from tourist_enter_entertainment group by facilityid) as a))');
     var data = {results: result.rows, results1: result1.rows, results2: result2.rows};
